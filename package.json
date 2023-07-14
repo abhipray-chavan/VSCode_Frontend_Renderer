@@ -1,0 +1,56 @@
+{
+    "name": "frontend-preview-extension",
+    "displayName": "Frontend Preview Extension",
+    "description": "VS Code extension to render the frontend of an application",
+    "version": "1.0.0",
+    "publisher": "Your Publisher Name",
+    "engines": {
+        "vscode": "^1.60.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:extension.renderFrontend"
+    ],
+    "main": "./extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.renderFrontend",
+                "title": "Render Frontend"
+            }
+        ],
+        "webview": {
+            "contentScripts": [
+                {
+                    "matches": [
+                        "http://localhost:3000/*"
+                    ],
+                    "js": [
+                        "contentScript.js"
+                    ],
+                    "runAt": "document_end"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run build",
+        "build": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run build",
+        "test": "echo \"No tests yet\""
+    },
+    "devDependencies": {
+        "@types/node": "^16.11.5",
+        "@types/vscode": "^1.62.0",
+        "typescript": "^4.5.4"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "openai": "^3.3.0",
+        "path": "^0.12.7",
+        "vscode": "^1.1.37"
+    }
+}

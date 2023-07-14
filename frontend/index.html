@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Code Quality and Review</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: black;
+      height: 100vh;
+      color: white;
+    }
+
+    h1, h2 {
+      color: white;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    textarea {
+      width: 400px;
+      height: 100px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      font-size: 14px;
+      color: #333;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #38adf0;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #38adf0;
+    }
+
+    textarea {
+      /* Add these new styles */
+      height: auto;
+      min-height: 100px;
+    }
+
+    .response {
+      margin-top: 20px;
+    }
+
+    #logo {
+      width: 200px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <img id="logo" src="ValueLabs_Logo.jpg" alt="Logo">
+
+  <h1>Code Quality</h1>
+ 
+  <h2>Code Review</h2>
+  <textarea id="codeReview" placeholder="Enter the code to reivew here ....."></textarea>
+  <button onclick="reviewCode()">Review</button>
+  <div id="reviewResponse" class="response"></div>
+
+  <script>
+    
+    function reviewCode() {
+      const codeReview = document.getElementById("codeReview").value;
+      const reviewResponseElement = document.getElementById("reviewResponse");
+      reviewResponseElement.innerText = ""; // Clear previous response
+
+      fetch("http://localhost:3000/review", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ codeReview })
+      })
+      .then(response => response.json())
+      .then(data => {
+        const codeReviewResponse = data.review;
+        reviewResponseElement.innerHTML = `<textarea id="codeReview" placeholder="Enter code here...">${codeReviewResponse}</textarea>`;
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+    }
+  </script>
+</body>
+</html>
